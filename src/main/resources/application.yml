@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: personal-site-backend
+server:
+  port: 8080
