@@ -1,10 +1,10 @@
-package dev.joshuahale.backend.posts;
+package dev.joshuahale.backend.posts.repository;
 
+import dev.joshuahale.backend.posts.entity.PostsEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
