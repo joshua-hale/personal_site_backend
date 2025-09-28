@@ -1,4 +1,4 @@
-package dev.joshuahale.backend.posts;
+package dev.joshuahale.backend.posts.entity;
 
 import  jakarta.persistence.*;
 import java.time.OffsetDateTime;
