@@ -28,9 +28,14 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+  flyway:
+    # Add filesystem so Flyway sees new SQL during dev hot-reloads
+    locations: classpath:db/migration,filesystem:src/main/resources/db/migration
+
 logging:
   level:
     org.hibernate.SQL: warn
     org.springframework.jdbc.core: info
+    org.flywaydb: DEBUG
 server:
   port: 8080
