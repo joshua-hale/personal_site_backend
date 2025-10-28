@@ -56,18 +56,21 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request,
                                               HttpServletRequest http) {
-        // 1) Verify credentials (no session creation inside the service)
         AuthResponse user = authService.login(request, userAgent(http), clientIp(http));
-
-        // 2) Create server-side session + set HttpOnly cookie
         String token = sessionService.create(user.getUserId(), userAgent(http), clientIp(http));
-        ResponseCookie sid = sessionCookie(token, true);
 
-        // If you implement CSRF (double-submit), also set a non-HttpOnly csrf cookie here
+        // automatically set secure=true only in production
+        boolean secure = !isLocal(http);
+        ResponseCookie sid = sessionCookie(token, secure);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, sid.toString())
                 .body(user);
+    }
+
+    private boolean isLocal(HttpServletRequest req) {
+        String host = req.getServerName();
+        return host.equals("localhost") || host.equals("127.0.0.1");
     }
 
     // ---------------------------
