@@ -26,6 +26,11 @@ public class ContactEntity {
     @Column(name = "sent_at", nullable = false, columnDefinition = "timestamptz")
     private OffsetDateTime sentAt;
 
+    @PrePersist
+    protected void onCreate() {
+        sentAt = OffsetDateTime.now();
+    }
+
     public Long getId() {return id;}
 
     public String getName() {return name;}
