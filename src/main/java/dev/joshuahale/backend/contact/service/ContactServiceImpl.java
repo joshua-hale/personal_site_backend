@@ -24,12 +24,12 @@ public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
     private final JavaMailSender mailSender;
     private final String recipientEmail;
+    private final String fromEmail;      // ← ADD THIS
 
     public ContactServiceImpl(ContactRepository contactRepository,
                               JavaMailSender mailSender,
                               @Value("${contact.recipient.email}") String recipientEmail,
-                              @Value("${contact.from.email}") String fromEmail,
-                              @Value("${contact.from.name:Portfolio Contact Form}") String fromName) {
+                              @Value("${contact.from.email}") String fromEmail) {
         this.contactRepository = contactRepository;
         this.mailSender = mailSender;
         this.recipientEmail = recipientEmail;
