@@ -1,4 +1,8 @@
 package dev.joshuahale.backend.contact.repository;
 
-public class ContactRepository {
+import dev.joshuahale.backend.contact.entity.ContactEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ContactRepository extends JpaRepository<ContactEntity, Long> {
+
 }
