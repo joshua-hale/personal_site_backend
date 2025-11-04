@@ -58,3 +58,14 @@ src/main/resources/application-*.properties
 
 ### Docker
 .dockerignore
+
+app.jar
+deploy-prebuilt.zip
+test-jar.sh
+docker-compose.yml
+
+# build artifacts
+*.jar
+/target/
+/build/
+deploy-prebuilt.zip
