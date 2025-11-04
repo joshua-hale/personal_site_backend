@@ -23,13 +23,21 @@ public class SessionAuthenticationFilter extends OncePerRequestFilter {
     private static final String SID_COOKIE = "sid";
 
     private final SessionService sessionService;
-    // You'll need to inject AuthService or create a method to get user from session
     private final dev.joshuahale.backend.auth.service.AuthService authService;
 
     public SessionAuthenticationFilter(SessionService sessionService,
                                        dev.joshuahale.backend.auth.service.AuthService authService) {
         this.sessionService = sessionService;
         this.authService = authService;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        // Skip filter for public endpoints
+        return path.startsWith("/auth/") ||
+                path.startsWith("/api/contact") ||
+                path.startsWith("/actuator/health");
     }
 
     @Override
@@ -40,21 +48,17 @@ public class SessionAuthenticationFilter extends OncePerRequestFilter {
         String token = extractTokenFromCookie(request);
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Validate session and get user
             Optional<AuthResponse> user = authService.currentUser(token);
 
             if (user.isPresent()) {
-                // Create authentication token
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 user.get(),
                                 null,
-                                Collections.emptyList() // Add authorities/roles if you have them
+                                Collections.emptyList()
                         );
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                // Set authentication in SecurityContext
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

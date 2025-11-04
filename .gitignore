@@ -40,3 +40,21 @@ src/main/resources/application.yml
 src/main/resources/application-*.yml
 src/main/resources/application.properties
 src/main/resources/application-*.properties
+
+# BUT allow example files
+!src/main/resources/application-*.yml.example
+!src/main/resources/application-*.properties.example
+
+### Environment Files (SENSITIVE - DO NOT COMMIT) ###
+.env
+.env.*
+.env.local
+.env.prod
+.env.prod.local
+!.env.example
+
+### direnv
+.envrc
+
+### Docker
+.dockerignore
